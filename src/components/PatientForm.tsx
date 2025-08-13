@@ -260,7 +260,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <Label htmlFor="cpf">CPF *</Label>
                 <Input
@@ -280,6 +280,22 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
                   onChange={(e) => handleInputChange('rg', e.target.value)}
                 />
               </div>
+              <div>
+                <Label htmlFor="gender">Sexo</Label>
+                <Select value={formData.gender} onValueChange={(value) => handleInputChange('gender', value)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="masculine">Masculino</SelectItem>
+                    <SelectItem value="feminine">Feminino</SelectItem>
+                    <SelectItem value="other">Outro</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="otherDocType">Outros Documentos</Label>
                 <Select value={formData.otherDocuments?.type} onValueChange={(value) => handleInputChange('otherDocuments', { ...formData.otherDocuments, type: value })}>
@@ -304,22 +320,9 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
                   placeholder="Número"
                 />
               </div>
-              <div>
-                <Label htmlFor="gender">Sexo</Label>
-                <Select value={formData.gender} onValueChange={(value) => handleInputChange('gender', value)}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="masculine">Masculino</SelectItem>
-                    <SelectItem value="feminine">Feminino</SelectItem>
-                    <SelectItem value="other">Outro</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="birthDate">Data de Nascimento</Label>
                 <Input
@@ -327,15 +330,6 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
                   type="date"
                   value={formData.birthDate}
                   onChange={(e) => handleInputChange('birthDate', e.target.value)}
-                />
-              </div>
-              <div>
-                <Label htmlFor="birthplace">Naturalidade</Label>
-                <Input
-                  id="birthplace"
-                  value={formData.birthplace}
-                  onChange={(e) => handleInputChange('birthplace', e.target.value)}
-                  placeholder="Cidade de nascimento"
                 />
               </div>
               <div>
@@ -350,19 +344,13 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="maritalStatus">Estado Civil</Label>
-                <Select value={formData.maritalStatus} onValueChange={(value) => handleInputChange('maritalStatus', value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="single">Solteiro(a)</SelectItem>
-                    <SelectItem value="married">Casado(a)</SelectItem>
-                    <SelectItem value="divorced">Divorciado(a)</SelectItem>
-                    <SelectItem value="widowed">Viúvo(a)</SelectItem>
-                    <SelectItem value="union">União Estável</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Label htmlFor="birthplace">Naturalidade</Label>
+                <Input
+                  id="birthplace"
+                  value={formData.birthplace}
+                  onChange={(e) => handleInputChange('birthplace', e.target.value)}
+                  placeholder="Cidade de nascimento"
+                />
               </div>
               <div>
                 <Label htmlFor="nationality">Nacionalidade</Label>
@@ -386,7 +374,22 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="maritalStatus">Estado Civil</Label>
+                <Select value={formData.maritalStatus} onValueChange={(value) => handleInputChange('maritalStatus', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="single">Solteiro(a)</SelectItem>
+                    <SelectItem value="married">Casado(a)</SelectItem>
+                    <SelectItem value="divorced">Divorciado(a)</SelectItem>
+                    <SelectItem value="widowed">Viúvo(a)</SelectItem>
+                    <SelectItem value="union">União Estável</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
               <div>
                 <Label htmlFor="ethnicity">Etnia</Label>
                 <Select value={formData.ethnicity} onValueChange={(value) => handleInputChange('ethnicity', value)}>
@@ -459,7 +462,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
                   <Label htmlFor="responsibleName">Nome do Responsável</Label>
                   <Input
@@ -479,9 +482,6 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
                     maxLength={14}
                   />
                 </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="spouseName">Nome do Esposo(a)</Label>
                   <Input
@@ -644,7 +644,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <Label htmlFor="number">Número</Label>
                 <Input
@@ -661,7 +661,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
                   onChange={(e) => handleInputChange('address.complement', e.target.value)}
                 />
               </div>
-              <div className="md:col-span-2">
+              <div>
                 <Label htmlFor="neighborhood">Bairro</Label>
                 <Input
                   id="neighborhood"
