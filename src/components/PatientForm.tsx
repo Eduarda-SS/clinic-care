@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, ChevronUp, Upload, X, Save, ArrowLeft, User, Contact, MapPin, FileText, Heart } from 'lucide-react';
+import { ChevronDown, ChevronUp, Upload, X, Save, ArrowLeft, User, Contact, MapPin, FileText, Heart, Stethoscope, CreditCard, Paperclip } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -55,6 +55,10 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
     socialName: '',
     cpf: '',
     rg: '',
+    otherDocuments: {
+      type: '',
+      number: ''
+    },
     gender: 'masculine',
     birthDate: '',
     ethnicity: '',
@@ -87,8 +91,17 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
       reference: ''
     },
     observations: '',
-    isVip: false,
+    attachments: [],
+    bloodType: '',
+    weight: undefined,
+    height: undefined,
+    allergies: '',
     insurance: '',
+    plan: '',
+    registrationNumber: '',
+    cardValidity: '',
+    indefiniteValidity: false,
+    isVip: false,
     ...patient
   });
 
@@ -153,6 +166,19 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
       .replace(/(\d{2})(\d)/, '($1) $2')
       .replace(/(\d{5})(\d)/, '$1-$2')
       .replace(/(-\d{4})\d+?$/, '$1');
+  };
+
+  const calculateBMI = (weight: number, height: number): string => {
+    if (!weight || !height) return '';
+    const bmi = weight / (height * height);
+    return bmi.toFixed(1);
+  };
+
+  const getBMIClassification = (bmi: number): string => {
+    if (bmi < 18.5) return 'Abaixo do peso';
+    if (bmi < 25) return 'Peso normal';
+    if (bmi < 30) return 'Sobrepeso';
+    return 'Obesidade';
   };
 
   return (
@@ -234,7 +260,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
               <div>
                 <Label htmlFor="cpf">CPF *</Label>
                 <Input
@@ -255,6 +281,30 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
                 />
               </div>
               <div>
+                <Label htmlFor="otherDocType">Outros Documentos</Label>
+                <Select value={formData.otherDocuments?.type} onValueChange={(value) => handleInputChange('otherDocuments', { ...formData.otherDocuments, type: value })}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="cnh">CNH</SelectItem>
+                    <SelectItem value="passport">Passaporte</SelectItem>
+                    <SelectItem value="identity">Carteira de Identidade</SelectItem>
+                    <SelectItem value="work">Carteira de Trabalho</SelectItem>
+                    <SelectItem value="military">Certificado Militar</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="otherDocNumber">Número do Documento</Label>
+                <Input
+                  id="otherDocNumber"
+                  value={formData.otherDocuments?.number}
+                  onChange={(e) => handleInputChange('otherDocuments', { ...formData.otherDocuments, number: e.target.value })}
+                  placeholder="Número"
+                />
+              </div>
+              <div>
                 <Label htmlFor="gender">Sexo</Label>
                 <Select value={formData.gender} onValueChange={(value) => handleInputChange('gender', value)}>
                   <SelectTrigger>
@@ -269,7 +319,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <Label htmlFor="birthDate">Data de Nascimento</Label>
                 <Input
@@ -277,6 +327,15 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
                   type="date"
                   value={formData.birthDate}
                   onChange={(e) => handleInputChange('birthDate', e.target.value)}
+                />
+              </div>
+              <div>
+                <Label htmlFor="birthplace">Naturalidade</Label>
+                <Input
+                  id="birthplace"
+                  value={formData.birthplace}
+                  onChange={(e) => handleInputChange('birthplace', e.target.value)}
+                  placeholder="Cidade de nascimento"
                 />
               </div>
               <div>
@@ -307,11 +366,204 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
               </div>
               <div>
                 <Label htmlFor="nationality">Nacionalidade</Label>
-                <Input
-                  id="nationality"
-                  value={formData.nationality}
-                  onChange={(e) => handleInputChange('nationality', e.target.value)}
+                <Select value={formData.nationality} onValueChange={(value) => handleInputChange('nationality', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Brasileira">Brasileira</SelectItem>
+                    <SelectItem value="Argentina">Argentina</SelectItem>
+                    <SelectItem value="Paraguaia">Paraguaia</SelectItem>
+                    <SelectItem value="Uruguaia">Uruguaia</SelectItem>
+                    <SelectItem value="Boliviana">Boliviana</SelectItem>
+                    <SelectItem value="Chilena">Chilena</SelectItem>
+                    <SelectItem value="Colombiana">Colombiana</SelectItem>
+                    <SelectItem value="Peruana">Peruana</SelectItem>
+                    <SelectItem value="Venezuelana">Venezuelana</SelectItem>
+                    <SelectItem value="Outra">Outra</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="ethnicity">Etnia</Label>
+                <Select value={formData.ethnicity} onValueChange={(value) => handleInputChange('ethnicity', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="nao-indigena">Não Indígena</SelectItem>
+                    <SelectItem value="indigena">Indígena</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="race">Raça/Cor</Label>
+                <Select value={formData.race} onValueChange={(value) => handleInputChange('race', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="branca">Branca</SelectItem>
+                    <SelectItem value="preta">Preta</SelectItem>
+                    <SelectItem value="parda">Parda</SelectItem>
+                    <SelectItem value="amarela">Amarela</SelectItem>
+                    <SelectItem value="indigena">Indígena</SelectItem>
+                    <SelectItem value="sem-informacao">Sem informação</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {/* Informações da Família */}
+            <div className="space-y-4 pt-4 border-t">
+              <h4 className="text-sm font-semibold text-foreground">Informações da Família</h4>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="motherName">Nome da Mãe</Label>
+                  <Input
+                    id="motherName"
+                    value={formData.motherName}
+                    onChange={(e) => handleInputChange('motherName', e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="motherProfession">Profissão da Mãe</Label>
+                  <Input
+                    id="motherProfession"
+                    value={formData.motherProfession}
+                    onChange={(e) => handleInputChange('motherProfession', e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="fatherName">Nome do Pai</Label>
+                  <Input
+                    id="fatherName"
+                    value={formData.fatherName}
+                    onChange={(e) => handleInputChange('fatherName', e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="fatherProfession">Profissão do Pai</Label>
+                  <Input
+                    id="fatherProfession"
+                    value={formData.fatherProfession}
+                    onChange={(e) => handleInputChange('fatherProfession', e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="responsibleName">Nome do Responsável</Label>
+                  <Input
+                    id="responsibleName"
+                    value={formData.responsibleName}
+                    onChange={(e) => handleInputChange('responsibleName', e.target.value)}
+                    placeholder="Para menores ou dependentes"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="responsibleCpf">CPF do Responsável</Label>
+                  <Input
+                    id="responsibleCpf"
+                    value={formData.responsibleCpf}
+                    onChange={(e) => handleInputChange('responsibleCpf', formatCPF(e.target.value))}
+                    placeholder="000.000.000-00"
+                    maxLength={14}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="spouseName">Nome do Esposo(a)</Label>
+                  <Input
+                    id="spouseName"
+                    value={formData.spouseName}
+                    onChange={(e) => handleInputChange('spouseName', e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Configurações Especiais */}
+            <div className="space-y-4 pt-4 border-t">
+              <h4 className="text-sm font-semibold text-foreground">Configurações Especiais</h4>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                <div>
+                  <Label htmlFor="legacyCode">Código Legado</Label>
+                  <Input
+                    id="legacyCode"
+                    value={formData.legacyCode}
+                    onChange={(e) => handleInputChange('legacyCode', e.target.value)}
+                    placeholder="Identificador de outro sistema"
+                  />
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="isNewbornWithInsurance"
+                    checked={formData.isNewbornWithInsurance}
+                    onCheckedChange={(checked) => handleInputChange('isNewbornWithInsurance', checked)}
+                  />
+                  <Label htmlFor="isNewbornWithInsurance">RN na Guia do Convênio</Label>
+                </div>
+              </div>
+            </div>
+
+            {/* Observações */}
+            <div className="space-y-4 pt-4 border-t">
+              <h4 className="text-sm font-semibold text-foreground">Observações</h4>
+              <div>
+                <Label htmlFor="observations">Observações Gerais</Label>
+                <Textarea
+                  id="observations"
+                  value={formData.observations}
+                  onChange={(e) => handleInputChange('observations', e.target.value)}
+                  placeholder="Adicione observações importantes sobre o paciente (alergias, restrições, etc.)"
+                  rows={4}
                 />
+              </div>
+            </div>
+
+            {/* Anexos do Paciente */}
+            <div className="space-y-4 pt-4 border-t">
+              <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <Paperclip className="h-4 w-4" />
+                Anexos do Paciente
+              </h4>
+              
+              <div className="space-y-2">
+                <Button type="button" variant="outline" size="sm">
+                  <Upload className="mr-2 h-4 w-4" />
+                  Adicionar Documento
+                </Button>
+                
+                {formData.attachments && formData.attachments.length > 0 && (
+                  <div className="space-y-2">
+                    {formData.attachments.map((attachment, index) => (
+                      <div key={attachment.id} className="flex items-center justify-between p-2 bg-muted rounded-md">
+                        <div className="flex items-center gap-2">
+                          <Paperclip className="h-4 w-4" />
+                          <span className="text-sm font-medium">{attachment.name}</span>
+                          <span className="text-xs text-muted-foreground">
+                            {new Date(attachment.uploadDate).toLocaleDateString()}
+                          </span>
+                        </div>
+                        <Button type="button" variant="ghost" size="sm">
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -449,49 +701,172 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
           </div>
         </CollapsibleSection>
 
-        {/* Informações Clínicas */}
+        {/* Informações Médicas */}
         <CollapsibleSection
-          title="Informações Clínicas"
-          icon={<Heart className="h-5 w-5 text-primary" />}
+          title="Informações Médicas"
+          icon={<Stethoscope className="h-5 w-5 text-primary" />}
+          defaultOpen={false}
+        >
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="bloodType">Tipo Sanguíneo</Label>
+                <Select value={formData.bloodType} onValueChange={(value) => handleInputChange('bloodType', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="A+">A+</SelectItem>
+                    <SelectItem value="A-">A-</SelectItem>
+                    <SelectItem value="B+">B+</SelectItem>
+                    <SelectItem value="B-">B-</SelectItem>
+                    <SelectItem value="AB+">AB+</SelectItem>
+                    <SelectItem value="AB-">AB-</SelectItem>
+                    <SelectItem value="O+">O+</SelectItem>
+                    <SelectItem value="O-">O-</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="allergies">Alergias</Label>
+                <Input
+                  id="allergies"
+                  value={formData.allergies}
+                  onChange={(e) => handleInputChange('allergies', e.target.value)}
+                  placeholder="Descreva as alergias conhecidas"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="weight">Peso (kg)</Label>
+                <Input
+                  id="weight"
+                  type="number"
+                  step="0.1"
+                  value={formData.weight || ''}
+                  onChange={(e) => handleInputChange('weight', parseFloat(e.target.value) || undefined)}
+                  placeholder="Ex: 70.5"
+                />
+              </div>
+              <div>
+                <Label htmlFor="height">Altura (m)</Label>
+                <Input
+                  id="height"
+                  type="number"
+                  step="0.01"
+                  value={formData.height || ''}
+                  onChange={(e) => handleInputChange('height', parseFloat(e.target.value) || undefined)}
+                  placeholder="Ex: 1.75"
+                />
+              </div>
+              <div>
+                <Label htmlFor="bmi">IMC</Label>
+                {formData.weight && formData.height ? (
+                  <div className="flex flex-col">
+                    <div className="p-2 bg-muted rounded-md text-center">
+                      <span className="text-lg font-semibold">
+                        {calculateBMI(formData.weight, formData.height)}
+                      </span>
+                    </div>
+                    <span className="text-xs text-muted-foreground mt-1 text-center">
+                      {getBMIClassification(parseFloat(calculateBMI(formData.weight, formData.height)))}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="p-2 bg-muted rounded-md text-center text-muted-foreground">
+                    Calcular automaticamente
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </CollapsibleSection>
+
+        {/* Informações de Convênio */}
+        <CollapsibleSection
+          title="Informações de Convênio"
+          icon={<CreditCard className="h-5 w-5 text-primary" />}
           defaultOpen={false}
         >
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="insurance">Convênio</Label>
-                <Input
-                  id="insurance"
-                  value={formData.insurance}
-                  onChange={(e) => handleInputChange('insurance', e.target.value)}
-                />
+                <Select value={formData.insurance} onValueChange={(value) => handleInputChange('insurance', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="sus">SUS</SelectItem>
+                    <SelectItem value="unimed">Unimed</SelectItem>
+                    <SelectItem value="bradesco">Bradesco Saúde</SelectItem>
+                    <SelectItem value="amil">Amil</SelectItem>
+                    <SelectItem value="sulamerica">SulAmérica</SelectItem>
+                    <SelectItem value="notredame">Notre Dame</SelectItem>
+                    <SelectItem value="golden">Golden Cross</SelectItem>
+                    <SelectItem value="particular">Particular</SelectItem>
+                    <SelectItem value="outros">Outros</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-              <div className="flex items-center space-x-2 pt-6">
-                <Checkbox
-                  id="isVip"
-                  checked={formData.isVip}
-                  onCheckedChange={(checked) => handleInputChange('isVip', checked)}
+              <div>
+                <Label htmlFor="plan">Plano</Label>
+                <Input
+                  id="plan"
+                  value={formData.plan}
+                  onChange={(e) => handleInputChange('plan', e.target.value)}
+                  placeholder="Nome do plano"
                 />
-                <Label htmlFor="isVip">Paciente VIP</Label>
               </div>
             </div>
-          </div>
-        </CollapsibleSection>
 
-        {/* Observações */}
-        <CollapsibleSection
-          title="Observações"
-          icon={<FileText className="h-5 w-5 text-primary" />}
-          defaultOpen={false}
-        >
-          <div>
-            <Label htmlFor="observations">Observações Gerais</Label>
-            <Textarea
-              id="observations"
-              value={formData.observations}
-              onChange={(e) => handleInputChange('observations', e.target.value)}
-              placeholder="Adicione observações importantes sobre o paciente (alergias, restrições, etc.)"
-              rows={4}
-            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="registrationNumber">Nº de Matrícula</Label>
+                <Input
+                  id="registrationNumber"
+                  value={formData.registrationNumber}
+                  onChange={(e) => handleInputChange('registrationNumber', e.target.value)}
+                  placeholder="Número da matrícula"
+                />
+              </div>
+              <div>
+                <Label htmlFor="cardValidity">Validade da Carteirinha</Label>
+                <div className="space-y-2">
+                  <Input
+                    id="cardValidity"
+                    type="date"
+                    value={formData.cardValidity}
+                    onChange={(e) => handleInputChange('cardValidity', e.target.value)}
+                    disabled={formData.indefiniteValidity}
+                  />
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="indefiniteValidity"
+                      checked={formData.indefiniteValidity}
+                      onCheckedChange={(checked) => {
+                        handleInputChange('indefiniteValidity', checked);
+                        if (checked) {
+                          handleInputChange('cardValidity', '');
+                        }
+                      }}
+                    />
+                    <Label htmlFor="indefiniteValidity">Validade Indeterminada</Label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-2 pt-4">
+              <Checkbox
+                id="isVip"
+                checked={formData.isVip}
+                onCheckedChange={(checked) => handleInputChange('isVip', checked)}
+              />
+              <Label htmlFor="isVip">Paciente VIP</Label>
+            </div>
           </div>
         </CollapsibleSection>
 

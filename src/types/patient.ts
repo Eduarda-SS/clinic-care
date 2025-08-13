@@ -59,9 +59,21 @@ export interface Patient {
     uploadDate: string;
   }>;
   
-  // Informações clínicas
-  isVip?: boolean;
+  // Informações médicas
+  bloodType?: string;
+  weight?: number;
+  height?: number;
+  allergies?: string;
+  
+  // Informações de convênio
   insurance?: string;
+  plan?: string;
+  registrationNumber?: string;
+  cardValidity?: string;
+  indefiniteValidity?: boolean;
+  
+  // Informações administrativas
+  isVip?: boolean;
   lastAppointment?: string;
   nextAppointment?: string;
   
