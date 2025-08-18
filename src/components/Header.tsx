@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Heart, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 
 interface HeaderProps {
   onNavigate: (section: string) => void;
@@ -25,8 +25,12 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentSection }) => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center space-x-2">
-              <div className="bg-primary rounded-full p-2">
-                <Heart className="h-6 w-6 text-primary-foreground" />
+              <div className="w-10 h-10 rounded-full overflow-hidden">
+                <img 
+                  src="/lovable-uploads/10bb155d-3895-4658-8d42-8f1c5068d5e4.png" 
+                  alt="HealthCare Logo" 
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div>
                 <h1 className="text-xl font-bold text-primary">HealthCare</h1>

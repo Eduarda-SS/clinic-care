@@ -9,8 +9,12 @@ const Footer: React.FC = () => {
           {/* Logo & Description */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="bg-primary rounded-full p-2">
-                <Heart className="h-5 w-5 text-primary-foreground" />
+              <div className="w-8 h-8 rounded-full overflow-hidden">
+                <img 
+                  src="/lovable-uploads/10bb155d-3895-4658-8d42-8f1c5068d5e4.png" 
+                  alt="HealthCare Logo" 
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div>
                 <h3 className="text-lg font-bold">HealthCare</h3>
