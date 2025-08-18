@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Heart, Menu, Phone, Mail } from 'lucide-react';
+import { Heart, Menu } from 'lucide-react';
 
 interface HeaderProps {
   onNavigate: (section: string) => void;
@@ -18,26 +18,6 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentSection }) => {
 
   return (
     <header className="bg-white shadow-soft sticky top-0 z-50">
-      {/* Top Bar */}
-      <div className="bg-primary text-primary-foreground py-2">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center text-sm">
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-1">
-                <Phone size={14} />
-                <span>(11) 3456-7890</span>
-              </div>
-              <div className="flex items-center space-x-1">
-                <Mail size={14} />
-                <span>contato@clinicamedica.com</span>
-              </div>
-            </div>
-            <div className="hidden md:block">
-              <span>Horário de Funcionamento: Seg-Sex 8h às 18h</span>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Main Navigation */}
       <nav className="py-4">

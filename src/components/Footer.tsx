@@ -1,11 +1,11 @@
 import React from 'react';
-import { Heart, Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
     <footer className="bg-foreground text-background">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-3 gap-8">
           {/* Logo & Description */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
@@ -51,34 +51,6 @@ const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Contact Info */}
-          <div className="space-y-4">
-            <h4 className="text-sm font-semibold uppercase tracking-wider">Contato</h4>
-            <div className="space-y-3">
-              <div className="flex items-start space-x-3">
-                <MapPin className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                <p className="text-sm text-muted">
-                  Rua da Saúde, 123<br />
-                  São Paulo, SP - 01234-567
-                </p>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 text-primary flex-shrink-0" />
-                <p className="text-sm text-muted">(11) 3456-7890</p>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 text-primary flex-shrink-0" />
-                <p className="text-sm text-muted">contato@healthcare.com</p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <Clock className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                <p className="text-sm text-muted">
-                  Seg-Sex: 8h às 18h<br />
-                  Sáb: 8h às 12h
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Bottom Bar */}
