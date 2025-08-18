@@ -70,7 +70,7 @@ const Hero: React.FC<HeroProps> = ({ onGetStarted }) => {
 
           {/* Visual Elements */}
           <div className="relative">
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-6 items-start">
               {/* Feature Cards */}
               <div className="bg-white p-6 rounded-2xl shadow-soft hover:shadow-medical transition-all duration-300 hover:-translate-y-1">
                 <div className="bg-primary/10 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
@@ -82,7 +82,7 @@ const Hero: React.FC<HeroProps> = ({ onGetStarted }) => {
                 </p>
               </div>
 
-              <div className="bg-white p-6 rounded-2xl shadow-soft hover:shadow-medical transition-all duration-300 hover:-translate-y-1 mt-8">
+              <div className="bg-white p-6 rounded-2xl shadow-soft hover:shadow-medical transition-all duration-300 hover:-translate-y-1">
                 <div className="bg-primary/10 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
                   <Heart className="h-6 w-6 text-primary" />
                 </div>
@@ -92,7 +92,7 @@ const Hero: React.FC<HeroProps> = ({ onGetStarted }) => {
                 </p>
               </div>
 
-              <div className="bg-white p-6 rounded-2xl shadow-soft hover:shadow-medical transition-all duration-300 hover:-translate-y-1 -mt-4">
+              <div className="bg-white p-6 rounded-2xl shadow-soft hover:shadow-medical transition-all duration-300 hover:-translate-y-1">
                 <div className="bg-primary/10 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
                   <Users className="h-6 w-6 text-primary" />
                 </div>
@@ -102,7 +102,7 @@ const Hero: React.FC<HeroProps> = ({ onGetStarted }) => {
                 </p>
               </div>
 
-              <div className="bg-primary text-primary-foreground p-6 rounded-2xl shadow-medical hover:shadow-soft transition-all duration-300 hover:-translate-y-1 mt-4">
+              <div className="bg-primary text-primary-foreground p-6 rounded-2xl shadow-medical hover:shadow-soft transition-all duration-300 hover:-translate-y-1">
                 <div className="bg-white/20 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
                   <Heart className="h-6 w-6 text-white" />
                 </div>
