@@ -11,6 +11,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentSection }) => {
   const menuItems = [
     { id: 'home', label: 'Início' },
     { id: 'patients', label: 'Pacientes' },
+    { id: 'laudos', label: 'Laudos' },
     { id: 'about', label: 'Sobre' },
     { id: 'services', label: 'Serviços' },
     { id: 'contact', label: 'Contato' }
