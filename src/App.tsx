@@ -8,6 +8,8 @@ import { AppSidebar } from "@/components/AppSidebar";
 import Index from "./pages/Index";
 import AppointmentPage from "./pages/AppointmentPage";
 import NotFound from "./pages/NotFound";
+import { AdminDashboard } from "./components/admin/AdminDashboard";
+import { UserManagement } from "./components/admin/UserManagement";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +28,8 @@ const App = () => (
                 <Route path="/agenda" element={<AppointmentPage />} />
                 <Route path="/patients" element={<Index />} />
                 <Route path="/laudos" element={<Index />} />
+                <Route path="/admin/dashboard" element={<div className="p-6"><AdminDashboard /></div>} />
+                <Route path="/admin/users" element={<div className="p-6"><UserManagement /></div>} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

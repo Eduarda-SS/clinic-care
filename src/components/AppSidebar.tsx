@@ -1,4 +1,4 @@
-import { Calendar, Users, FileText, Settings, Clock, User } from "lucide-react";
+import { Calendar, Users, FileText, Settings, Clock, User, BarChart3, Shield } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -17,6 +17,11 @@ const navigationItems = [
   { title: "Pacientes", url: "/patients", icon: Users },
   { title: "Laudos", url: "/laudos", icon: FileText },
   { title: "Fila de Espera", url: "/waiting-list", icon: Clock },
+];
+
+const adminItems = [
+  { title: "Dashboard Admin", url: "/admin/dashboard", icon: BarChart3 },
+  { title: "Gestão de Usuários", url: "/admin/users", icon: Shield },
 ];
 
 const configItems = [
@@ -45,6 +50,28 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {navigationItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink 
+                      to={item.url} 
+                      end 
+                      className={getNavCls(isActive(item.url))}
+                    >
+                      <item.icon className="mr-2 h-4 w-4" />
+                      <span>{item.title}</span>
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Administração</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {adminItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink 
