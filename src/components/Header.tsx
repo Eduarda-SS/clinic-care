@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, HelpCircle, Mail, Phone, MessageCircle } from 'lucide-react';
 import {
@@ -6,6 +6,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import SupportChat from './SupportChat';
 
 interface HeaderProps {
   onNavigate: (section: string) => void;
@@ -13,6 +14,8 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ onNavigate, currentSection }) => {
+  const [chatOpen, setChatOpen] = useState(false);
+  
   const menuItems = [
     { id: 'home', label: 'Início' },
     { id: 'patients', label: 'Pacientes' },
@@ -100,6 +103,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentSection }) => {
                         </div>
                       </a>
                       <button 
+                        onClick={() => setChatOpen(true)}
                         className="flex items-center gap-3 p-2 rounded-md hover:bg-accent transition-colors w-full"
                       >
                         <MessageCircle className="h-5 w-5 text-primary" />
@@ -128,6 +132,8 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentSection }) => {
           </div>
         </div>
       </nav>
+      
+      <SupportChat open={chatOpen} onOpenChange={setChatOpen} />
     </header>
   );
 };
