@@ -1,6 +1,11 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
+import { Menu, HelpCircle, Mail, Phone, MessageCircle } from 'lucide-react';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface HeaderProps {
   onNavigate: (section: string) => void;
@@ -58,7 +63,56 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentSection }) => {
             </div>
 
             {/* CTA Button */}
-            <div className="hidden md:block">
+            <div className="hidden md:flex items-center gap-2">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <HelpCircle className="h-5 w-5" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80">
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold text-lg mb-2">Suporte</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Entre em contato conosco através dos canais abaixo
+                      </p>
+                    </div>
+                    <div className="space-y-3">
+                      <a 
+                        href="mailto:suporte@mediconnect.com"
+                        className="flex items-center gap-3 p-2 rounded-md hover:bg-accent transition-colors"
+                      >
+                        <Mail className="h-5 w-5 text-primary" />
+                        <div>
+                          <p className="text-sm font-medium">Email</p>
+                          <p className="text-xs text-muted-foreground">suporte@mediconnect.com</p>
+                        </div>
+                      </a>
+                      <a 
+                        href="tel:+551133334444"
+                        className="flex items-center gap-3 p-2 rounded-md hover:bg-accent transition-colors"
+                      >
+                        <Phone className="h-5 w-5 text-primary" />
+                        <div>
+                          <p className="text-sm font-medium">Telefone</p>
+                          <p className="text-xs text-muted-foreground">(11) 3333-4444</p>
+                        </div>
+                      </a>
+                      <button 
+                        className="flex items-center gap-3 p-2 rounded-md hover:bg-accent transition-colors w-full"
+                      >
+                        <MessageCircle className="h-5 w-5 text-primary" />
+                        <div className="text-left">
+                          <p className="text-sm font-medium">Chat Online</p>
+                          <p className="text-xs text-muted-foreground">Disponível 24/7</p>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+              
               <Button 
                 onClick={() => onNavigate('patients')}
                 className="bg-primary hover:bg-primary-glow"
