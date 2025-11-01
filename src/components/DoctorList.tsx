@@ -84,7 +84,7 @@ export const DoctorList: React.FC<DoctorListProps> = ({
     <div className="container mx-auto py-8 px-4">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold">Médicos</h1>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">Médicos</h1>
           <p className="text-muted-foreground">Gerencie os médicos cadastrados no sistema</p>
         </div>
         <Button onClick={onAddDoctor}>
