@@ -8,6 +8,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { UserProvider } from "@/contexts/UserContext";
 import Index from "./pages/Index";
 import AppointmentPage from "./pages/AppointmentPage";
+import ProfessionalsPage from "./pages/ProfessionalsPage";
 import NotFound from "./pages/NotFound";
 import { AdminDashboard } from "./components/admin/AdminDashboard";
 import { UserManagement } from "./components/admin/UserManagement";
@@ -29,6 +30,7 @@ const App = () => (
                   <Route path="/" element={<Index />} />
                   <Route path="/agenda" element={<AppointmentPage />} />
                   <Route path="/patients" element={<Index />} />
+                  <Route path="/professionals" element={<ProfessionalsPage />} />
                   <Route path="/laudos" element={<Index />} />
                   <Route path="/admin/dashboard" element={<div className="p-6"><AdminDashboard /></div>} />
                   <Route path="/admin/users" element={<div className="p-6"><UserManagement /></div>} />
